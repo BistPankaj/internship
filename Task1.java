@@ -1,47 +1,73 @@
-//import java.io;
 import java.util.Scanner;
-public class Task1{
-    // temprature convertor program
-    public static void main(String args[]){
-        int choice;
-        double value, result;
-        Scanner sc = new Scanner (System.in);
 
-        System.out.println("---TEMPRATURE CONVERTER---");
-        System.out.println("1. Celsius to Fahrenheit");
-        System.out.println("2. Fahrenheit to Celsius");
-        System.out.println("3. Celsius to Kelvin");
-        System.out.println("4. Kelvin to Celsius");
-        System.out.print("Enter the choice: ");
-        choice=sc.nextInt();
-        if(choice >= 1 && choice <=4){   
-            System.out.print("Enter the value of Temprature: ");  
+public class Task1 {
+    /* this is the level: 2 task: 1 */
+    public static void main(String[] args) {
+        char[][] board = new char[3][3];
+        /* this is the empty board */
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[row].length; col++) {
+                board[row][col] = ' ';
+            }
         }
-        switch(choice){
-            case 1:
-            value=sc.nextDouble();
-            result=(value*9/5)+32;
-            System.out.print("Converted Temprature is: "+result+" °F");
-            break;
-            case 2:
-            value=sc.nextDouble();
-            result=(value-32)*5/9;
-            System.out.print("Converted Temprature is: "+result+" °C");
-            break;
-            case 3:
-            value=sc.nextDouble();
-            result=((value)+273.15);
-            System.out.print("Converted Temrature is: "+result+" K");
-            break;
-            case 4:
-            value=sc.nextDouble();
-            result=((value)-273.15);
-            System.out.print("Converted Temprature is: "+result+" °C");
-            break;
-            default:
-            System.out.print("Invalid choice");
+        char player = 'X';
+        boolean gameover = false;
+        Scanner scn = new Scanner(System.in);
+        while (!gameover) {
+            printboard(board);
+            System.out.print("player " + player + " Enter : ");
+            int row = scn.nextInt();
+            int col = scn.nextInt();
+            if (board[row][col] == ' ') {
+                // place the elements
+                board[row][col] = player;
+                gameover = youhavewon(board, player);
+                if (gameover) {
+                    System.out.println("player " + player + " has won");
+
+                } else {
+                    player = (player == 'X') ? 'O' : 'X';
+                }
+
+            } else {
+                System.out.println("Invalid Move try again");
+            }
+
         }
-        
-        
+        printboard(board);
+
+    }
+
+    public static boolean youhavewon(char[][] board, char player) {
+        // check for row
+        for (int row = 0; row < board.length; row++) {
+            if (board[row][0] == player && board[row][1] == player && board[row][2] == player) {
+                return true;
+            }
+        }
+        // check for col
+        for (int col = 0; col < board[0].length; col++) {
+            if (board[0][col] == player && board[1][col] == player && board[2][col] == player) {
+                return true;
+            }
+        }
+        // check the digonal
+        if (board[0][0] == player && board[1][1] == player && board[2][2] == player) {
+            return true;
+        }
+        if (board[0][2] == player && board[1][1] == player && board[2][0] == player) {
+            return true;
+        }
+        return false;
+
+    }
+
+    public static void printboard(char[][] board) {
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[row].length; col++) {
+                System.out.print(board[row][col] + " | ");
+            }
+            System.out.println();
+        }
     }
 }
